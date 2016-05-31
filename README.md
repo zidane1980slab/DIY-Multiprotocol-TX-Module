@@ -44,7 +44,7 @@ Settings per selection are located in _Config.h:
  - Autobind: Yes or No. At the model selection (or power applied to the TX) a bind sequence will be initiated
  
 ###Using a serial output
-The multiprotocol TX module takes full advantage of being used on a Turnigy 9X, 9XR, 9XR Pro, Taranis, 9Xtreme, AR9X, ... running [er9x or ersky9X](https://github.com/MikeBland/mbtx/tree/next). An OpenTX version for Taranis is being developped and available has a beta version for now.
+The multiprotocol TX module takes full advantage of being used on a Turnigy 9X, 9XR, 9XR Pro, Taranis, 9Xtreme, AR9X, ... running [er9x](http://openrcforums.com/forum/viewtopic.php?f=5&t=4598) or [ersky9X](http://openrcforums.com/forum/viewtopic.php?f=7&t=4676). An OpenTX version for Taranis is available [here](http://plaisthos.de/opentx/).
 
 This enables full integration using the radio GUI to setup models with all the available protocols options.
 
@@ -66,24 +66,28 @@ Notes:
 
 ###Telemetry
 
-There are 3 protocols supporting telemetry: Hubsan, FrSky and FrSkyX.
+There are 4 protocols supporting telemetry: Hubsan, DSM, FrSky and FrSkyX.
 
 Hubsan displays the battery voltage and TX RSSI.
 
+DSM displays TX RSSI and full telemetry.
+
 FrSky displays full telemetry (A0, A1, RX RSSI, TX RSSI and Hub).
 
-FrSkyX displays basic telemetry (A1, A2 and RX RSSI).
+FrSkyX displays full telemetry (A1, A2, RX RSSI, TX RSSI and Hub).
 
 ### If used in PPM mode
 
-Telemetry is available as a serial 9600 8 n 1 output on the TX pin of the Atmega328p using the FRSky hub format.
+Telemetry is available as a serial 9600 8 n 1 output on the TX pin of the Atmega328p using the FRSky hub format for Hubsan, FrSky, FrSkyX and DSM format for DSM2/X.
 
 You can connect it to your TX if it is telemetry enabled or use a bluetooth adapter (HC05/HC06) along with an app on your phone/tablet ([app example](https://play.google.com/store/apps/details?id=biz.onomato.frskydash&hl=fr)) to display telemetry information and setup alerts.
 
 ### If used in Serial mode
- Telemetry is built in for er9x and ersky9x TXs.
+Telemetry is built in for er9x and ersky9x TXs.
 
 To enable telemetry on a Turnigy 9X or 9XR you need to modify your TX following one of the Frsky mod like this [one](http://blog.oscarliang.net/turnigy-9x-advance-mod/).
+
+Note: DSM telemetry is not available on er9x due to a lack of flash space.
 
 Enabling telemetry on a 9XR PRO and may be other TXs does not require any hardware modifications. The additional required serial pin is already available on the TX back module pins.
 
@@ -158,6 +162,9 @@ Protocol|Sub_protocol
 --------|------------
 FrSky|
 FrSkyX|
+ |CH_16
+ |CH_8
+SFHSS|
 
 #####CYRF6936 RF module
 Protocol|Sub_protocol
@@ -226,7 +233,7 @@ Note:
 ###RF modules
 Up to 4 RF modules can be installed:
 - [A7105](http://www.banggood.com/XL7105-D03-A7105-Modification-Module-Support-Deviation-Galee-Flysky-p-922603.html)    for Flysky, Hubsan
-- [CC2500](http://www.banggood.com/CC2500-PA-LNA-Romote-Wireless-Module-CC2500-SI4432-NRF24L01-p-922595.html)   for Frsky
+- [CC2500](http://www.banggood.com/CC2500-PA-LNA-Romote-Wireless-Module-CC2500-SI4432-NRF24L01-p-922595.html)   for FrSky, FrSkyX and SFHSS
 - [CYRF6936](http://www.ehirobo.com/walkera-wk-devo-s-mod-devo-8-or-12-to-devo-8s-or-12s-upgrade-module.html) for DSM2, DSMX, DEVO, Walkera
 - [NRF24L01](http://www.banggood.com/2_4G-NRF24L01-PA-LNA-Wireless-Module-1632mm-Without-Antenna-p-922601.html) for Hisky, V2x2, CX-10, SYMAX and plenty other protocols
 
@@ -238,17 +245,17 @@ You also need some [antennas](http://www.banggood.com/2_4GHz-3dBi-RP-SMA-Connect
 The main program is running on an ATMEGA328p running @16MHz and 3.3V.
 An [Arduino pro mini 16Mhz/5V](http://www.banggood.com/Wholesale-New-Ver-Pro-Mini-ATMEGA328-328p-5V-16MHz-Arduino-Compatible-Nano-Size-p-68534.html) powered at 3.3V (yes it works) can be used to build your own Multimodule. An Arduino Mini based on Atmega328p can also be used.
 
-Using stripboard:
+####Using stripboard:
 
 ![Screenshot](http://static.rcgroups.net/forums/attachments/4/0/8/5/8/3/t8214655-87-thumb-uploadfromtaptalk1405598143749.jpg?d=1441459923)
 ![Screenshot](http://static.rcgroups.net/forums/attachments/4/0/8/5/8/3/t8214656-102-thumb-uploadfromtaptalk1405598152484.jpg?d=1441459924)
 
-Using a [home made PCB](http://www.rcgroups.com/forums/showpost.php?p=32645328&postcount=1621):
+####Using a [home made PCB](http://www.rcgroups.com/forums/showpost.php?p=32645328&postcount=1621):
 
 ![Screenshot](http://static.rcgroups.net/forums/attachments/1/1/5/4/3/7/t8226720-197-thumb-IMG_20150715_230603155.jpg?d=1441816457)
 ![Screenshot](http://static.rcgroups.net/forums/attachments/1/1/5/4/3/7/t8226719-72-thumb-IMG_20150715_230024065.jpg?d=1441816456)
 
-or build your own board using [SMD components](http://www.rcgroups.com/forums/showpost.php?p=31064232&postcount=1020) and an [associated PCB v2.3c](https://oshpark.com/shared_projects/MaGYDg0y):
+####Build your own board using [SMD components](http://www.rcgroups.com/forums/showpost.php?p=31064232&postcount=1020) and an [associated PCB v2.3c](https://oshpark.com/shared_projects/MaGYDg0y):
 
 ![Screenshot](http://static.rcgroups.net/forums/attachments/4/0/8/5/8/3/t7566755-3-thumb-i.png?d=1423810885)
 ![Screenshot](http://static.rcgroups.net/forums/attachments/4/0/8/5/8/3/t7952726-108-thumb-image-62c29cf2.jpg?d=1433909893)
@@ -266,6 +273,21 @@ lines through them.
 ![Screenshot](https://644db4de3505c40a0444-327723bce298e3ff5813fb42baeefbaa.ssl.cf1.rackcdn.com/97b87a89b75785d70b354e5b033f5209.png)
 
 [OSH Park link](https://oshpark.com/shared_projects/Ztus1ah8) if you want to order.
+
+####Buy a ready to use and complete Multi module
+![Screenshot](http://img.banggood.com/thumb/view/oaupload/banggood/images/1D/EB/19bb6434-4616-411e-b8fa-a4c21d9dca24.jpg)
+
+This module can be purchased [here](http://www.banggood.com/2_4G-CC2500-A7105-Flysky-Frsky-Devo-DSM2-Multiprotocol-TX-Module-With-Antenna-p-1048377.html). All the 4 RF modules are already implemented A7105, NRF24L01, CC2500 and CYRF6936. The board is also equiped with an antenna switcher which means only one antenna for all.
+
+To update the firmware of this module you have to solder a 6 pin header (top left) and use an USBASP like explained [below](https://github.com/pascallanger/DIY-Multiprotocol-TX-Module#upload-the-code-using-isp-in-system-programming). 
+
+If you want to enable serial mode for er9x/ersky9x/Taranis/..., you have to do [this mod](http://static.rcgroups.net/forums/attachments/4/0/8/5/8/3/a8895038-170-4in1%20module.jpg).
+
+There are currently some hardware issues with the first version of this 4in1 module:
+ - A7105 RF is forced to PA mode which prevents telemetry to work. Hubsan is the only protocol using telemetry for battery voltage display.
+ - NRF24L01 is forced to PA mode which prevents telemetry to work. There are currently no protocols using telemetry based on this RF chip.
+
+Based on the [Deviation forum](http://www.deviationtx.com/forum/7-development/5434-3in1-4in1-rf-module?start=280#46751) these issues will be solved in the upcoming version.
 
 ###Schematic
 ![Screenshot](http://static.rcgroups.net/forums/attachments/4/0/8/5/8/3/a8443844-119-multiprotocol_diagram_rotary_serial_2.jpg)
@@ -327,9 +349,9 @@ This will make sure your ATMEGA328 is well configured and the global TX ID is no
 
 ###LED status
 - off: program not running or a protocol selected with the associated module not installed.
-- flash: invalid protocol selected (excluded from compilation or invalid protocol number)
-- slow blink: serial has been selected but no valid signal has been seen on the RX pin.
-- fast blink: bind in progress.
+- flash(on=0.1s,off=1s): invalid protocol selected (excluded from compilation or invalid protocol number)
+- slow blink(on=0.5s,off=0.5s): serial has been selected but no valid signal has been seen on the RX pin.
+- fast blink(on=0.1s,off=0.1s): bind in progress.
 - on: normal operation.
 
 ###Protocol selection
